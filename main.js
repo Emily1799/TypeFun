@@ -229,7 +229,7 @@ window.setInterval(function(){
 	points = points + (5   * typists[0])* mulby[1];
 	points = points + (500 * typists[1])* mulby[1];
 	points = points + (25  * computers[0]) * mulby[2];
-	points = points + (2500  * computers[1]) * mulby[2];
+	points = points + (2500* computers[1]) * mulby[2];
 	
 	
 	document.getElementById('points').innerHTML =points;  //updates the number of cookies for the user

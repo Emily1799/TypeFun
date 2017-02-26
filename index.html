@@ -9,7 +9,7 @@
 <body onload="setup(); updateWord();">
 	
 	<div id="bd">
-    <div id="yui-main">
+    <div id="yui-main" >
 	
       <div class="yui-b">
         <div class="yui-gb">
@@ -18,7 +18,9 @@
   <p>
     Type in the current word to get points! Then, when you have enough, buy stuff to do the typing for you =)
   </p>
+	<div style="font-size:30px">
 	Current word: <span id="curword">a</span>
+	</div>
 	<br />
    <input id="textinput" type="text" value=" " oninput="if(this.value.trim() == curword ) { this.value=''; inputEntered(wordpoints); updateWord();}">
 	<br />
