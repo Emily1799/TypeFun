@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html lang = "en">
+<head>
+<link rel="stylesheet" type="text/css" href="interface.css" />
+  <!-- basic.html -->
+  <title>index.html</title>
+  <meta charset = "UTF-8" />
+</head>
+<body onload="setup(); updateWord();">
+	
+	<div id="bd">
+    <div id="yui-main">
+	
+      <div class="yui-b">
+        <div class="yui-gb">
+		<!-- <h1>TypingGame!</h1> -->
+		<a href='https://postimg.org/image/oqudralmx/' target='_blank'><img src='https://s4.postimg.org/oe2zl43d9/CPUTq_NX.png' border='0' alt='TypeGame'/><br /></a>
+  <p>
+    Type in the current word to get points! Then, when you have enough, buy stuff to do the typing for you =)
+  </p>
+	Current word: <span id="curword">a</span>
+	<br />
+   <input id="textinput" type="text" value=" " oninput="if(this.value.trim() == curword ) { this.value=''; inputEntered(wordpoints); updateWord();}">
+	<br />
+	Points per word: <span id="wordpoints">1</span>
+	<br />
+	Points: <span id="points">0</span>
+	<br />
+          <div class="yui-u first">
+            <div class="content">
+				<br />
+				<a href='https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Creative-Tail-Animal-monkey.svg/480px-Creative-Tail-Animal-monkey.svg.png' target='_blank'><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Creative-Tail-Animal-monkey.svg/480px-Creative-Tail-Animal-monkey.svg.png' border='0' alt='Monkey pic' height='100px' width='100px'/></a>
+				<br />
+				Monkeys: <span id="monkeys[0]">0</span> 
+				<br />
+				Monkey cost: <span id="monkeyCost[0]">10</span>
+				<br />
+				<button onclick="buyMonkey(0)">Buy monkey</button>
+				<br />
+				Super monkeys: <span id="monkeys[1]">0</span>
+				<br />
+				Super monkey cost: <span id="monkeyCost[1]">50000</span>
+				<br />
+				<button onclick="buyMonkey(1)">Buy super monkey</button>
+				
+				
+			</div>
+			</div>
+          <div class="yui-u">
+            <div class="content">
+				<br />
+				<a href='https://cdn.pixabay.com/photo/2016/12/16/07/34/handshake-1910702_960_720.png' target='_blank'><img src='https://cdn.pixabay.com/photo/2016/12/16/07/34/handshake-1910702_960_720.png' border='0' alt='computer pic' height='100px' width='100px'/></a>
+				<br />
+				Typists: <span id="typists[0]">0</span>
+				<br />
+				Typist cost: <span id="typistCost[0]">1000</span>
+				<br />
+				<button onclick="buyTypist(0)">Buy typist</button>
+				<br />
+				Super typists: <span id="typists[1]">0</span>
+				<br />
+				Super typist cost: <span id="typistCost[1]">500000</span>
+				<br />
+				<button onclick="buyTypist(1)">Buy super typist</button>
+				
+				
+				
+				
+            </div>
+          </div>
+          <div class="yui-u">
+            <div class="content">
+				<br />
+				<a href='https://cdn.pixabay.com/photo/2016/09/30/19/30/monitor-1706152_960_720.png' target='_blank'><img src='https://cdn.pixabay.com/photo/2016/09/30/19/30/monitor-1706152_960_720.png' border='0' alt='computer pic' height='100px' width='100px'/></a>
+				<br />
+				Computers: <span id="computers[0]">0</span>
+				<br />
+				Computer cost: <span id="computerCost[0]">10000</span>
+				<br/>
+				<button onclick="buyComputer(0)">Buy computer</button>
+				<br />
+				Super computers: <span id="computers[1]">0</span>
+				<br />
+				Super computers cost: <span id="computerCost[1]">5000000</span>
+				<br />
+				<button onclick="buyComputer(1)">Buy super computer</button>
+				
+				
+			
+			</div>
+          </div>
+      </div>
+    </div>
+    <div class="yui-b">
+      <div id="secondary">Autotyper upgrades! <br/>
+	  Monkey upgrade cost: <span id="upgradecost[0]">12500</span>
+	  <button onclick="upgradeUnits(0);">Upgrade monkey</button>
+	  Typist upgrade cost: <span id="upgradecost[1]">125000</span>
+	  <button onclick="upgradeUnits(1);">Upgrade typist</button>
+	  Computer upgrade cost: <span id="upgradecost[2]">937500</span>
+	  <button onclick="upgradeUnits(2);">Upgrade computer</button>
+	  <br />
+		<p> Manual typing upgrades! </p>
+		Keyboard upgrade cost: <span id="keyboardupgradecost">100000</span>
+	  <button onclick="upgradeType();">Upgrade keyboard</button>
+		
+	  </div>
+    </div>
+  </div>
+  <div id="ft">
+    <div id="footer">Footer</div>
+  </div>
+</div>
+				
+				
+				
+  
+			
+			</div>
+   
+   <br/>
+   
+   <br />
+<script type="text/javascript" src="main.js"></script>
+</body>
+</html>
