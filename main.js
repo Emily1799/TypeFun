@@ -20,23 +20,33 @@ var wordsmonkey = [];
 var wordstypist = [];
 var wordssuper = [];
 
+var previndex = -1;
+
 function inputEntered(number){
     points = points + number;
 	document.getElementById("points").innerHTML = points;
 };
 
 
-
+//calls choose list, then selects random index within the list and returns a word
 function updateWord() {
 	var curlist = [];
 	curlist = chooseList();
 	var random = getRandomInt(0, curlist.length);
+	
+	//prevent same word from ever being chosen twice in a row...
+	while(random === previndex) {
+		random = getRandomInt(0, curlist.length);
+	}
+	previndex = random;
 	
 	curword = curlist[random]
 
 	document.getElementById("curword").innerHTML = curword; 
 };
 
+//chooses a list based on how many of different units are bought, returns list
+//this could be better -- prime target for updating here...
 function chooseList() {
 	if((monkeys[1] > 0) || (typists[1] > 0) || (computers[1] > 0)) {
 		var random = getRandomInt(0, (monkeys[1] + typists[1] + computers[1])); 
@@ -70,7 +80,7 @@ function chooseList() {
 		
 	}
 }
-
+//i is index for what level of monkey. 0=regular, 1=super.
 function buyMonkey(i){
 	var start;
 	var add;
@@ -82,7 +92,6 @@ function buyMonkey(i){
 		start = 50000;
 		add = 500;
 	}
-	
 		var monkeyCost = Math.floor(start * Math.pow(1.1,monkeys[i]));     //Updates cost
 		if(points>= monkeyCost){                                   
 			monkeys[i] = monkeys[i] + 1;                                   
@@ -103,6 +112,7 @@ function buyMonkey(i){
 	document.getElementById('wordpoints').innerHTML = wordpoints;
 };
 
+//pretty much same as monkey, maybe use some sort of inheritance if I refactor?
 function buyTypist(i){
 	var start=0;
 	var add=0;
@@ -135,6 +145,7 @@ function buyTypist(i){
 	document.getElementById('wordpoints').innerHTML =wordpoints;
 };
 
+//same as above
 function buyComputer(i){
 	var start=0;
 	var add=0;
@@ -202,6 +213,7 @@ function upgradeType() {
 	}
 }
 
+//maybe add more words here... declares some lists and then makes them into an array. I'm way too lazy to type out array format for so many words, so make the client do it. If it needs to be faster for some reason, I can fix this later.
 function setup(){
 	
 	wordsstart = ["a", "s", "d", "f", "g", "h", "j", "k", "l"];
@@ -224,12 +236,15 @@ function getRandomInt(min, max) {
 }	
 
 window.setInterval(function(){
-	points = points + (1   * monkeys[0])* mulby[0];
-	points = points + (100 * monkeys[1])* mulby[0];
-	points = points + (5   * typists[0])* mulby[1];
-	points = points + (500 * typists[1])* mulby[1];
-	points = points + (25  * computers[0]) * mulby[2];
-	points = points + (2500* computers[1]) * mulby[2];
+	var addpoints = 0;
+	addpoints =  (1   * monkeys[0])* mulby[0];
+	addpoints += (100 * monkeys[1])* mulby[0];
+	addpoints += (5   * typists[0])* mulby[1];
+	addpoints += (500 * typists[1])* mulby[1];
+	addpoints += (25  * computers[0]) * mulby[2];
+	addpoints += (2500* computers[1]) * mulby[2];
+	
+	points = points + addpoints;
 	
 	
 	document.getElementById('points').innerHTML =points;  //updates the number of cookies for the user
