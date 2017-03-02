@@ -22,11 +22,11 @@
 	Current word: <span id="curword"></span>
 	<span id="notification-area">
 		<img id='good-notification' src='assets/correct-mark.png'>
-		<!-- img id='bad-notification' src="assets/error-mark.png" -->
+		<img id='bad-notification' src="assets/error-mark.png">
 	</span>
 	</div>
 	<br />
-   <input id="textinput" type="text" value=" " oninput="if(this.value.trim() == curword ) { this.value=''; inputEntered(wordpoints); setNotification('good'); updateWord();} else{setNotification('bad')}">
+   <input id="textinput" type="text" value=" " oninput="if(this.value.trim() == curword ) { this.value=''; inputEntered(wordpoints); setNotification('good'); updateWord();} else{ if(this.value.trim().length >= curword.length){ setNotification('bad');} }">
 	<br />
 	Points per word: <span id="wordpoints">1</span>
 	<br />
@@ -123,6 +123,10 @@
    <br />
    <style type="text/css">
    	#good-notification, #bad-notification{
+		/*  start our notification icons as hidden and give them
+			more opacity on certain input.
+			CSS transitions will give their appearance a "smooth" effect
+		*/
 		opacity: 0;
 		-webkit-transition: opacity 0.1s linear;
 		-moz-transition: opacity 0.1s linear;

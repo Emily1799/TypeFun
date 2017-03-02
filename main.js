@@ -29,6 +29,7 @@ function inputEntered(number){
 };
 
 function setNotification(type){
+	// Reveal the icon that we were asked for
 	if(type == "good"){
 		notificationIcon = document.getElementById("good-notification") || null;
 		if(notificationIcon != null){
@@ -41,6 +42,9 @@ function setNotification(type){
 			notificationIcon.style.opacity = 1.0;
 		}
 	}
+	// Because of how quickly these instructions are processed, we have to
+	// set a timeout before asking to hide the icon.
+	// Otherwise, the changes would happen faster than we could notice them!
 	setTimeout(function(){
 		if(notificationIcon != null){
 			notificationIcon.style.opacity = 0;
