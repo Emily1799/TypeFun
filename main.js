@@ -21,12 +21,32 @@ var wordstypist = [];
 var wordssuper = [];
 
 var previndex = -1;
+var notificationIcon = null;
 
 function inputEntered(number){
     points = points + number;
 	document.getElementById("points").innerHTML = points;
 };
 
+function setNotification(type){
+	if(type == "good"){
+		notificationIcon = document.getElementById("good-notification") || null;
+		if(notificationIcon != null){
+			notificationIcon.style.opacity = 1.0;
+		}
+	}
+	if(type == "bad"){
+		notificationIcon = document.getElementById("bad-notification") || null;
+		if(notificationIcon != null){
+			notificationIcon.style.opacity = 1.0;
+		}
+	}
+	setTimeout(function(){
+		if(notificationIcon != null){
+			notificationIcon.style.opacity = 0;
+		}
+	}, 101);
+}
 
 //calls choose list, then selects random index within the list and returns a word
 function updateWord() {
@@ -42,7 +62,7 @@ function updateWord() {
 	
 	curword = curlist[random]
 
-	document.getElementById("curword").innerHTML = curword; 
+	document.getElementById("curword").innerHTML = curword;
 };
 
 //chooses a list based on how many of different units are bought, returns list

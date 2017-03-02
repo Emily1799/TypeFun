@@ -19,10 +19,14 @@
     Type in the current word to get points! Then, when you have enough, buy stuff to do the typing for you =)
   </p>
 	<div style="font-size:30px">
-	Current word: <span id="curword">a</span>
+	Current word: <span id="curword"></span>
+	<span id="notification-area">
+		<img id='good-notification' src='assets/correct-mark.png'>
+		<!-- img id='bad-notification' src="assets/error-mark.png" -->
+	</span>
 	</div>
 	<br />
-   <input id="textinput" type="text" value=" " oninput="if(this.value.trim() == curword ) { this.value=''; inputEntered(wordpoints); updateWord();}">
+   <input id="textinput" type="text" value=" " oninput="if(this.value.trim() == curword ) { this.value=''; inputEntered(wordpoints); setNotification('good'); updateWord();} else{setNotification('bad')}">
 	<br />
 	Points per word: <span id="wordpoints">1</span>
 	<br />
@@ -117,6 +121,16 @@
    
    <br/>
    <br />
-<script type="text/javascript" src="main.js"></script>
+   <style type="text/css">
+   	#good-notification, #bad-notification{
+		opacity: 0;
+		-webkit-transition: opacity 0.1s linear;
+		-moz-transition: opacity 0.1s linear;
+		-ms-transition: opacity 0.1s linear;
+		-o-transition: opacity 0.1s linear;
+		transition: opacity 0.1s linear;
+   	}
+   </style>
+	<script type="text/javascript" src="main.js"></script>
 </body>
 </html>
