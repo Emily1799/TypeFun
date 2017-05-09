@@ -1,4 +1,3 @@
-
 var points = 0;
 var wordpoints = 1;
 var curword;
@@ -8,7 +7,6 @@ var monkeys = [0, 0];
 var typists = [0, 0];
 var computers = [0, 0];
 
-
 var mulby = [1, 1, 1];
 var mulbybought = [0, 0, 0]; //number of times upgrade has been bought
 var nextupgradecost = [0, 0, 0];
@@ -16,9 +14,13 @@ var typeupgradebought = 0;
 
 //arrays of words
 var wordsstart = [];
+var wordstop = [];
+var wordstoplong = [];
 var wordsmonkey = [];
 var wordstypist = [];
 var wordssuper = [];
+
+
 
 var previndex = -1;
 var notificationIcon = null;
@@ -27,7 +29,7 @@ function inputEntered(number){
     points = points + number;
 	document.getElementById("points").innerHTML = points;
 };
-
+//note for future readers that code reguarding the notification was pushed by brandon8000
 function setNotification(type){
 	// Reveal the icon that we were asked for
 	if(type == "good"){
@@ -72,31 +74,39 @@ function updateWord() {
 //chooses a list based on how many of different units are bought, returns list
 //this could be better -- prime target for updating here...
 function chooseList() {
-	if((monkeys[1] > 0) || (typists[1] > 0) || (computers[1] > 0)) {
+	if((monkeys[1] > 0) || (typists[1] > 0) || (computers[1] > 0)) { //if they've got a super of anything
 		var random = getRandomInt(0, (monkeys[1] + typists[1] + computers[1])); 
-		if(random > monkeys[0]) {
+		if(random > Math.floor((monkeys[1]+ typists[1] + computers[1])/2))  {
 			return wordssuper;
+		}
+		else if(random > (monkeys[1]+ typists[1] + computers[1])/4) {
+			return wordstoplong;
 		}
 		else {
 			return wordstypist
 		}
-	
 	}
-	else if((monkeys[0] === 0) && (typists[0] === 0)) {
+	else if((monkeys[0] === 0) && (typists[0] === 0)) { //if they have no monkeys or typists
 		return wordsstart;
 	}
-	else if ((monkeys[0] > 0) && (typists[0] === 0)) {
+	else if ((monkeys[0] > 0) && (typists[0] === 0)) { //if fhere's only monkeys
 		var random = getRandomInt(0, monkeys[0]); 
 			if(random > (5 + Math.floor(monkeys[0]/2)))  {
 				return wordsmonkey;
 			}
-			return wordsstart;
+			else if(random > Math.floor(-2 + monkeys[0]/3)) {
+				return wordsstart;
+			}
+			return wordstop;
 		
 	}
-	else if((monkeys[0] > 0) && (typists[0] > 0)) {
+	else if((monkeys[0] > 0) && (typists[0] > 0)) { //if they have monkeys and typists
 		var random = getRandomInt(0, monkeys[0] + typists[0]); 
 			if(random > (5 + Math.floor((monkeys[0]+typists[0])/2)))  {
-				return wordstypist;
+				return wordstop;
+			}
+			else if (random > Math.floor((monkeys[0]+typists[0])/3)) {
+				return wordstoplong;
 			}
 			else {
 				return wordsmonkey;
@@ -242,23 +252,113 @@ function setup(){
 	
 	wordsstart = ["a", "s", "d", "f", "g", "h", "j", "k", "l"];
 	
-	var strmonkey = "dad as sad lad lag sag gag hag had ask jag lass lads fads glad flag flask gags hags dads jags lads lasses flasks alfalfa";
+	var strmonkey = "dad as sad lad lag sag gag hag had ask jag lass lads fads glad flag flask gags hags dads jags lads lasses has sass gaga ja flasks alfalfa";
 	wordsmonkey = strmonkey.split(" ");
 	
-	var strtypist = "read were pop trip wig yes toy eat your poop the tree treat food leaf reef quit drag tag rag yeah hi rip ripped sweet sip hello yellow free trees greet free year peek peel seek keep sleep freed seen wed reed she he her his their"
+	var strtypist = "read were pop trip wig yes toy eat your poop the tree treat food leaf reef quit drag tag rag yeah hi rip ripped sweet sip hello yellow free trees greet free year peek peel seek keep sleep freed seen wed reed she he her his their seed weak queer great greed pedal lead there play gray hay yard took look jar jagged sagged ragged lollypop quote quest quadruple it if its swap sheep"
 	wordstypist = strtypist.split(" ");	
 	
-	var strsuper = "reading popping tripping box dock cat kitten mood moo bark no son buy need want book bottle cup plate bag car crack smack went going mom light chair quick brown fox over down rain plane bread creep jump bead bat can more zoo soon box noon night back"
+	var strtop = "q w e r t y u i o p";
+	wordstop = strtop.split(" ");
+	
+	var strtopwords = "tree try ire tie wit quit pretty pot wet queue yup pop it tire pepper proper prop row rye toy tower power tweet error quite erupt write writer popper pewter require your err poy poi tip pit prior tripe yip pip ripe wort tory typewriter type pro rope twerp rupture quiet rite wipe"
+	
+	wordstoplong = strtopwords.split(" ");
+	
+	var strsuper = "reading popping tripping box dock cat kitten mood moo bark no son buy need want book bottle cup plate bag car crack smack went going mom light chair quick brown fox over down rain plane bread creep jump bead bat can more zoo soon box noon night back  grabbing freedom wristwatch quintuple meaty venting axe peace family saved dog goober zipper break creeped broken crooked pinky five vive virtual zany knave knack boxer mixup exit"
 	
 	wordssuper = strsuper.split(" ");
+	
+	loadSave();
 };
 //thank you to https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min;
-}	
+};
 
+//Cookie stuff. Thanks to http://stackoverflow.com/questions/14573223/set-cookie-and-get-cookie-with-javascript	
+function createCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + value + expires + "; path=/";
+}
+
+function readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+function eraseCookie(name) {
+    createCookie(name,"",-1);
+}
+
+function loadSave() {
+	cookie = readCookie("save");
+	console.log(cookie);
+	if(cookie){
+		//reset all those lovely vars...
+		var cookiearr = cookie.split(",").map(Number);
+
+		points = cookiearr[0];
+		typeof points;
+		wordpoints = cookiearr[1];
+		
+		monkeys[0] = cookiearr[2];
+		monkeys[1] = cookiearr[3];
+		document.getElementById('monkeyCost[0]').innerHTML =  cookiearr[4];
+		document.getElementById('monkeyCost[1]').innerHTML =  cookiearr[5];
+		
+		typists[0] = cookiearr[6];
+		typists[1] = cookiearr[7];
+		document.getElementById('typistCost[0]').innerHTML =  cookiearr[8];
+		document.getElementById('typistCost[1]').innerHTML =  cookiearr[9];
+		
+		computers[0] = cookiearr[10];
+		computers[1] = cookiearr[11];
+		document.getElementById('computerCost[0]').innerHTML =  cookiearr[12];
+		document.getElementById('computerCost[1]').innerHTML =  cookiearr[13];
+		
+		mulby[0] = cookiearr[14];
+		mulby[1] = cookiearr[15];
+		mulby[2] = cookiearr[16];
+		
+		mulbybought[0] = cookiearr[17];
+		mulbybought[1] = cookiearr[18];
+		mulbybought[2] = cookiearr[19];
+		
+		document.getElementById('upgradecost[0]').innerHTML = cookiearr[20];
+		document.getElementById('upgradecost[1]').innerHTML = cookiearr[21];
+		document.getElementById('upgradecost[2]').innerHTML = cookiearr[22];
+		
+		typeupgradebought = cookiearr[23];
+		document.getElementById('keyboardupgradecost').innerHTML = cookiearr[24];
+		
+		//update rest of the ids for user
+		document.getElementById('wordpoints').innerHTML = wordpoints;
+		document.getElementById('points').innerHTML = points;  
+		document.getElementById('monkeys[0]').innerHTML = monkeys[0];  
+		document.getElementById('monkeys[1]').innerHTML = monkeys[1];
+		document.getElementById('typists[0]').innerHTML = typists[0]; 
+		document.getElementById('typists[1]').innerHTML = typists[1];
+		document.getElementById('computers[0]').innerHTML = computers[0];
+        document.getElementById('computers[1]').innerHTML = computers[1];  
+		
+		
+		
+	}
+}
 window.setInterval(function(){
 	var addpoints = 0;
 	addpoints =  (1   * monkeys[0])* mulby[0];
@@ -268,11 +368,53 @@ window.setInterval(function(){
 	addpoints += (25  * computers[0]) * mulby[2];
 	addpoints += (2500* computers[1]) * mulby[2];
 	
-	points = points + addpoints;
+	points = points + Math.floor(addpoints);
 	
 	
 	document.getElementById('points').innerHTML =points;  //updates the number of cookies for the user
 
 }, 1000);
 
+//save a cookie with game info
+window.setInterval(function() {
+	//set up variables to be restored in the future, split with the , symbol. Wherever there is an [i], there is a backslash between each index
+	//documentation: savetxt is formatted as points\wordpoints\monkeys[i]\monkeyCost[i]\typists[i]\typistCpst[i]\computers[i]\computerCost[i]\mulby[i]\mulbybought[i]\upgradeCost[i]
+	var savetxt = "";
+	savetxt += String(points) + ","; //0
+	savetxt += String(wordpoints) + ","; //1
+	
+	//monkeys
+	savetxt += monkeys.join(",") + ","; //2, 3
+	savetxt += String(Math.floor(10 * Math.pow(1.1,monkeys[0]))) + ",";//4
+	savetxt += String(Math.floor(50000 * Math.pow(1.1,monkeys[1]))) + ","; //5
+	
+	//typists
+	savetxt += typists.join(",") + ","; //6, 7
+	savetxt += String(Math.floor(1000 * Math.pow(1.1,typists[0]))) + ","; //8
+	savetxt += String(Math.floor(500000 * Math.pow(1.1,typists[1]))) + ","; //9
+	
+	//computers
+	savetxt += computers.join(",") + ","; //10, 11
+	savetxt += String(Math.floor(10000 * Math.pow(1.1,computers[0]))) + ","; //12
+	savetxt += String(Math.floor(5000000 * Math.pow(1.1,computers[1]))) + ","; //13
+	
+	//stuff for upgrades
+	savetxt += mulby.join(",") + ","; //14, 15, 16
+	savetxt += mulbybought.join(",") + ","; //17,18,19
+	
+	//calc upgrade costs and add in
+	savetxt +=String(Math.floor(Math.pow(5, (0+3)) * Math.pow(2, mulbybought[0]) * (100 * (0+1)))) + ",";//20
+	savetxt +=String(Math.floor(Math.pow(5, (1+3)) * Math.pow(2, mulbybought[1]) * (100 * (1+1)))) + ","; //21
+	savetxt +=String(Math.floor(Math.pow(5, (2+3)) * Math.pow(2, mulbybought[2]) * (100 * (2+1)))) + ","; //22
+	
+	//typeupgradebought
+	savetxt += typeupgradebought + ",";// 23
+	savetxt += String(Math.floor(Math.pow(10, typeupgradebought+5))) + ","; //24
+	//set cookie
+	createCookie('save',savetxt,700); //keep for ~2 years
+	
+	console.log("cookie saved: " + savetxt)
+
+}, 100000); //ever 100 seconds
+	
 
