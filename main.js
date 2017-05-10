@@ -359,25 +359,9 @@ function loadSave() {
 		
 	}
 }
-window.setInterval(function(){
-	var addpoints = 0;
-	addpoints =  (1   * monkeys[0])* mulby[0];
-	addpoints += (100 * monkeys[1])* mulby[0];
-	addpoints += (5   * typists[0])* mulby[1];
-	addpoints += (500 * typists[1])* mulby[1];
-	addpoints += (25  * computers[0]) * mulby[2];
-	addpoints += (2500* computers[1]) * mulby[2];
-	
-	points = points + Math.floor(addpoints);
-	
-	
-	document.getElementById('points').innerHTML =points;  //updates the number of cookies for the user
 
-}, 1000);
-
-//save a cookie with game info
-window.setInterval(function() {
-	//set up variables to be restored in the future, split with the , symbol. Wherever there is an [i], there is a backslash between each index
+function saveGame() {
+		//set up variables to be restored in the future, split with the , symbol. Wherever there is an [i], there is a backslash between each index
 	//documentation: savetxt is formatted as points\wordpoints\monkeys[i]\monkeyCost[i]\typists[i]\typistCpst[i]\computers[i]\computerCost[i]\mulby[i]\mulbybought[i]\upgradeCost[i]
 	var savetxt = "";
 	savetxt += String(points) + ","; //0
@@ -414,6 +398,28 @@ window.setInterval(function() {
 	createCookie('save',savetxt,700); //keep for ~2 years
 	
 	console.log("cookie saved: " + savetxt)
+}
+window.setInterval(function(){
+	var addpoints = 0;
+	addpoints =  (1   * monkeys[0])* mulby[0];
+	addpoints += (100 * monkeys[1])* mulby[0];
+	addpoints += (5   * typists[0])* mulby[1];
+	addpoints += (500 * typists[1])* mulby[1];
+	addpoints += (25  * computers[0]) * mulby[2];
+	addpoints += (2500* computers[1]) * mulby[2];
+	
+	points = points + Math.floor(addpoints);
+	
+	
+	document.getElementById('points').innerHTML =points;  //updates the number of cookies for the user
+
+}, 1000);
+
+
+
+//save a cookie with game info
+window.setInterval(function() {
+	saveGame();
 
 }, 100000); //ever 100 seconds
 	
