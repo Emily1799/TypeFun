@@ -304,6 +304,16 @@ function eraseCookie(name) {
     createCookie(name,"",-1);
 }
 
+function deleteSave() {
+		//ensure that user actually wants to delete their save
+		var isSure = confirm("Are you sure you want to delete your save? You'll never be able to get it back");
+		if (isSure) {
+			eraseCookie("save");
+			//after, reload the page to previous standing. This will change current word, but whatever.
+			window.location.reload(false); 
+		}
+}
+
 function loadSave() {
 	cookie = readCookie("save");
 	console.log(cookie);
