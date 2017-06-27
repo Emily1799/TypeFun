@@ -1,5 +1,5 @@
 # TypeFun
-An incremental game that helps kids learn to type!
+An incremental game that helps kids learn to type! Visit http://http://www.typefunkids.com/ to view live.
 
 ## Inspiration
 I'm going to teach a little girl (about 6 years old) how to program, but she doesn't know how to type! For now, we're working with Scratch, but since she'll eventually need typing skills to learn a real programming language, I went looking for a good game to set her up with. I couldn't find any game that looked engaging and fun.
