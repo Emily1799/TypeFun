@@ -20,13 +20,20 @@ var wordsmonkey = [];
 var wordstypist = [];
 var wordssuper = [];
 
+//TODO: achievements
 
+var numTyped = 0;
+typed10 = false;
+typed100 = false;
+typed1000 = false;
+var hasDone = [typed10, typed100, typed1000];
 
 var previndex = -1;
 var notificationIcon = null;
 
 function inputEntered(number){
     points = points + number;
+	numTyped++;
 	document.getElementById("points").innerHTML = points;
 };
 //note for future readers that code reguarding the notification was pushed by brandon8000
@@ -355,6 +362,22 @@ function loadSave() {
 		typeupgradebought = cookiearr[23];
 		document.getElementById('keyboardupgradecost').innerHTML = cookiearr[24];
 		
+		//achievements
+		numTyped = cookiearr[25]
+		hasDone[0] = cookiearr[26];
+		hasDone[1] = cookiearr[27];
+		hasDone[2] = cookiearr[28];
+		
+		//update achievement text
+		if(hasDone[0]) {
+			document.getElementById("achieveText").innerHTML += "Typed 10 words! <br>";
+		}
+		if(hasDone[1]) {
+			document.getElementById("achieveText").innerHTML += "Typed 100 words! <br>";
+		}
+		if(hasDone[2])  {
+			document.getElementById("achieveText").innerHTML += "Typed 1000 words! <br>";
+		}
 		//update rest of the ids for user
 		document.getElementById('wordpoints').innerHTML = wordpoints;
 		document.getElementById('points').innerHTML = points;  
@@ -404,6 +427,11 @@ function saveGame() {
 	//typeupgradebought
 	savetxt += typeupgradebought + ",";// 23
 	savetxt += String(Math.floor(Math.pow(10, typeupgradebought+5))) + ","; //24
+	
+	//achievements
+	savetxt += String(numTyped) + ",";
+	savetxt += hasDone.join(",") + ","
+	
 	//set cookie
 	createCookie('save',savetxt,700); //keep for ~2 years
 	
@@ -425,6 +453,27 @@ window.setInterval(function(){
 
 }, 1000);
 
+//check for achievements every 30 seconds
+window.setInterval(function(){
+	//number of words typed achievements 
+	if((typed10 === false) && (numTyped >= 10)){
+		typed10 = true;
+		saveGame(); //if something is achieved, save the game automatically
+		document.getElementById("achieveText").innerHTML += "Typed 10 words! <br>";
+	}
+	else if ((typed100 === false) && (numTyped >= 100)) {
+		typed100 = true;
+		saveGame();
+		document.getElementById("achieveText").innerHTML += "Typed 100 words! <br>";
+	}
+	else if ((typed1000 === false) && (numTyped >= 1000)) {
+		typed1000 = true;
+		saveGame();
+		document.getElementById("achieveText").innerHTML += "Typed 1000 words! <br>";
+	}	
+	//set hasDone to correct value
+	hasDone = [typed10, typed100, typed1000];
+}, 30000);
 
 
 //save a cookie with game info
