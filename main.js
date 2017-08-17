@@ -114,7 +114,7 @@ function chooseList() {
 		
 	}
 }
-//i is index for what level of monkey. 0=regular, 1=super.
+//i is index for what level of monkey. 0=regular, 1=super
 function buyMonkey(i){
 	var start;
 	var add;
