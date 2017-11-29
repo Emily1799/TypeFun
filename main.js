@@ -387,9 +387,10 @@ function loadSave() {
 		document.getElementById('typists[1]').innerHTML = typists[1];
 		document.getElementById('computers[0]').innerHTML = computers[0];
         document.getElementById('computers[1]').innerHTML = computers[1];  
-		
-		
-		
+	}
+	else { //if there was no cookie (new player or deleted save)
+		//pop up a message explaining
+		window.alert("Welcome to TypeFun! Typefun is an open source project intended to be a fun way to learn to type. To play, start by typing the current word into the input box. From there, it's up to you!\n\nFor more information, go to https://github.com/Emily1799/TypeFun");
 	}
 }
 
