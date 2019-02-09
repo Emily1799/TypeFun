@@ -24,3 +24,5 @@ Figuring out how HTML worked in the beginning. This was my first time doing anyt
 ## Things to do if I want to come back here
 Adding achievements, balancing game play a little better, prettifying the page more, maybe custom wordlists, maybe a prestige mechanic... There's lots I can do!
 
+## What you can do
+You should feel welcome to fork this and edit how you please, just don't do it for a profit. Have a good time, and good luck!
